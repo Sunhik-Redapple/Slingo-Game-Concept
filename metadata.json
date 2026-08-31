@@ -1,0 +1,7 @@
+{
+  "name": "White Screen",
+  "description": "A 5x5 number grid game with an interactive 1x5 slot machine and line-matching mechanics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
