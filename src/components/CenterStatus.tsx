@@ -32,7 +32,7 @@ export function CenterStatus({
     <section
       id="center-game-status"
       aria-label="Game Status and Information"
-      className="w-full max-w-[min(90vw,55vh,440px)] flex flex-col items-center gap-2 select-none"
+      className="w-full max-w-[min(95vw,60vh,560px)] flex flex-col items-center gap-2 select-none"
     >
       {/* Fixed height status/instruction slot - guaranteed zero layout shift */}
       <div className="w-full h-8 flex items-center justify-center">

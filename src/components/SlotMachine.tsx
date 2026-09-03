@@ -103,7 +103,7 @@ export function SlotMachine({
   return (
     <div
       id="slot-machine-wrapper"
-      className="flex flex-col items-center w-full max-w-[min(90vw,55vh,440px)]"
+      className="flex flex-col items-center w-full max-w-[min(95vw,60vh,560px)]"
     >
       {/* Slot Machine Chassis */}
       <div

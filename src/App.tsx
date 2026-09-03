@@ -7,6 +7,7 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import confetti from 'canvas-confetti';
 import { GridCellData, ReelOutcome, LineWin } from './types';
 import { NumberGrid } from './components/NumberGrid';
+import { LevelLadder } from './components/LevelLadder';
 import { SlotMachine } from './components/SlotMachine';
 import { CenterStatus } from './components/CenterStatus';
 import { soundFx } from './utils/audio';
@@ -14,6 +15,21 @@ import { soundFx } from './utils/audio';
 const INITIAL_SPINS = 10;
 const GRID_SIZE = 5;
 const TOTAL_CELLS = GRID_SIZE * GRID_SIZE;
+
+const LEVEL_POINTS_TABLE: Record<number, number> = {
+  1: 100,
+  2: 250,
+  3: 500,
+  4: 1000,
+  5: 2000,
+  6: 3500,
+  7: 6000,
+  8: 10000,
+  9: 16000,
+  10: 25000,
+  11: 45000,
+  12: 100000,
+};
 
 // Generate column-distributed numbers from 1 to 70
 function generateGrid(): number[] {
@@ -200,14 +216,23 @@ export default function App() {
       soundFx.playLineWin();
       try {
         confetti({
-          particleCount: 50 * newLines.length,
+          particleCount: 45 + 15 * completedLines.length,
           spread: 60,
           origin: { y: 0.6 },
         });
       } catch {
         // ignore
       }
-      setScore((s) => s + newLines.length * 1000);
+
+      // Calculate progressive level points awarded for the new lines
+      const prevCount = knownLineIds.size;
+      const newCount = completedLines.length;
+      let addedPoints = 0;
+      for (let lvl = prevCount + 1; lvl <= newCount; lvl++) {
+        addedPoints += LEVEL_POINTS_TABLE[lvl] || 1000;
+      }
+
+      setScore((s) => s + addedPoints);
       setKnownLineIds(new Set(completedLines.map((l) => l.id)));
     }
   }, [completedLines, knownLineIds]);
@@ -470,13 +495,19 @@ export default function App() {
       id="main-canvas"
       className="flex min-h-screen w-full flex-col items-center justify-center gap-3 sm:gap-4 bg-white p-3 sm:p-5 select-none"
     >
-      {/* 5x5 Number Grid (Top) */}
-      <NumberGrid
-        cells={cells}
-        onCellClick={handleCellClick}
-        isCellSelectable={isCellSelectable}
-        highlightCols={Array.from({ length: 5 }, (_, c) => activeWildCols.has(c) || hasSuperWild)}
-      />
+      {/* Top Section: 5x5 Number Grid + 12-Level Prize Ladder on the Right */}
+      <div
+        id="game-board-container"
+        className="flex items-stretch justify-center gap-2 sm:gap-3 w-full max-w-[min(95vw,60vh,560px)]"
+      >
+        <NumberGrid
+          cells={cells}
+          onCellClick={handleCellClick}
+          isCellSelectable={isCellSelectable}
+          highlightCols={Array.from({ length: 5 }, (_, c) => activeWildCols.has(c) || hasSuperWild)}
+        />
+        <LevelLadder currentLines={completedLines.length} />
+      </div>
 
       {/* Center Game Status & Information */}
       <CenterStatus

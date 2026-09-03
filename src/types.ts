@@ -24,6 +24,14 @@ export interface LineWin {
   name: string;
 }
 
+export interface LadderLevel {
+  level: number;
+  linesRequired: number;
+  points: number;
+  formattedPoints: string;
+  label?: string;
+}
+
 export interface GameState {
   spinsLeft: number;
   score: number;

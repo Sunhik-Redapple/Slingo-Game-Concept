@@ -18,13 +18,13 @@ export function NumberGrid({
   return (
     <div
       id="grid-5x5-wrapper"
-      className="w-full max-w-[min(90vw,55vh,440px)] flex flex-col items-center"
+      className="flex-1 flex flex-col items-center justify-center min-w-0"
     >
       <div
         id="grid-5x5"
         role="grid"
         aria-label="5 by 5 Number Grid"
-        className="grid aspect-square w-full grid-cols-5 grid-rows-5 gap-1 rounded-2xl border-2 border-zinc-300 bg-zinc-100 p-2 sm:p-3 shadow-md select-none"
+        className="grid aspect-square w-full grid-cols-5 grid-rows-5 gap-1 rounded-2xl border-2 border-zinc-300 bg-zinc-100 p-1.5 sm:p-2.5 md:p-3 shadow-md select-none"
       >
         {cells.map((cell) => {
           const selectable = isCellSelectable(cell);
@@ -43,7 +43,7 @@ export function NumberGrid({
               onClick={() => onCellClick(cell.index)}
               whileHover={selectable ? { scale: 1.06 } : {}}
               whileTap={selectable ? { scale: 0.95 } : {}}
-              className={`relative flex aspect-square items-center justify-center rounded-lg font-bold text-base sm:text-xl transition-all duration-200 ${
+              className={`relative flex aspect-square items-center justify-center rounded-lg font-bold text-sm sm:text-lg md:text-xl transition-all duration-200 ${
                 cell.isMarked
                   ? cell.isPartOfWinningLine
                     ? 'bg-amber-400 text-zinc-950 font-black shadow-xs ring-2 ring-amber-500 scale-[0.98]'
@@ -66,7 +66,7 @@ export function NumberGrid({
                   transition={{ type: 'spring', stiffness: 500, damping: 25 }}
                   className="absolute inset-0 flex items-center justify-center bg-black/10 rounded-lg pointer-events-none"
                 >
-                  <Check className="w-5 h-5 sm:w-7 sm:h-7 stroke-[3] text-white/90 drop-shadow-xs" />
+                  <Check className="w-4 h-4 sm:w-6 sm:h-6 stroke-[3] text-white/90 drop-shadow-xs" />
                 </motion.div>
               )}
             </motion.button>
